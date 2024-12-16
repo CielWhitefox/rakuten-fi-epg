@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, time, timezone
 import pytz
 import unicodedata
 
-tz = pytz.timezone('Europe/London')
+tz = pytz.timezone('Europe/Helsinki')
 
 
 # From https://stackoverflow.com/questions/4324790/removing-control-characters-from-a-string-in-python
@@ -32,7 +32,7 @@ Make the channels and programmes into something readable by XMLTV
 
     data = etree.Element("tv")
     data.set("generator-info-name", "rakuten-epg")
-    data.set("generator-info-url", "https://github.com/dp247/")
+    data.set("generator-info-url", "https://github.com/TomaraRedfox/")
     for ch in channels:
         channel = etree.SubElement(data, "channel")
         channel.set("id", str(ch.get("id")))
@@ -53,23 +53,23 @@ Make the channels and programmes into something readable by XMLTV
         programme.set("stop", end_time)
 
         title = etree.SubElement(programme, "title")
-        title.set('lang', 'en')
+        title.set('lang', 'fi')
         title.text = pr.get("title")
 
         if pr.get("subtitle") is not None:
             subtitle = etree.SubElement(programme, "sub-title")
-            subtitle.set('lang', 'en')
+            subtitle.set('lang', 'fi')
             subtitle.text = remove_control_characters(pr.get("subtitle"))
 
         if pr.get('description') is not None:
             description = etree.SubElement(programme, "desc")
-            description.set('lang', 'en')
+            description.set('lang', 'fi')
             description.text = remove_control_characters(pr.get("description"))
 
         if pr.get('tags') is not None:
             if len(pr.get('tags')) > 0:
                 category = etree.SubElement(programme, "category")
-                category.set('lang', 'en')
+                category.set('lang', 'fi')
                 for tag in pr.get('tags'):
                     category.text = tag.get("name")
 
@@ -85,7 +85,7 @@ url_string = (f"classification_id=18&device_identifier=web"
               f"&epg_ends_at_timestamp={days[-1].timestamp()}"
               f"&epg_starts_at={days[0].strftime('%Y-%m-%dT%H:%M:%S.000Z')}"
               f"&epg_starts_at_timestamp={days[0].timestamp()}"
-              f"&locale=en&market_code=uk"
+              f"&locale=fi&market_code=fi"
               f"&per_page=250")
 
 url = "https://gizmo.rakuten.tv/v3/live_channels?" + url_string.replace(":", "%3A")
